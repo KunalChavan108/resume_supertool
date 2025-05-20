@@ -9,7 +9,7 @@ from reportlab.pdfgen import canvas
 from fpdf import FPDF
 
 app = Flask(__name__)
-app.secret_key = "oneeyedeagle"
+app.secret_key = os.getenv("SECRET_KEY", "default_secret_key")
 
 # Load spaCy English model
 nlp = spacy.load("en_core_web_sm")
@@ -376,6 +376,14 @@ def create_resume():
         return send_file(pdf_path, as_attachment=True)
 
     return render_template("create_resume.html")
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
 
 
 if __name__ == "__main__":
